@@ -10,6 +10,7 @@ import de.fhg.aisec.ids.idscp2.idscp_core.api.configuration.Idscp2Configuration
 import de.fhg.aisec.ids.idscp2.idscp_core.api.idscp_server.SecureChannelInitListener
 import de.fhg.aisec.ids.idscp2.idscp_core.secure_channel.SecureChannel
 import de.fhg.aisec.ids.idscp2.idscp_core.api.idscp_server.ServerConnectionListener
+import de.fhg.aisec.ids.idscp2.idscp_core.fsm.FSM
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.security.KeyManagementException
@@ -30,6 +31,9 @@ class NativeTLSDriver<CC: Idscp2Connection> : SecureChannelDriver<CC, NativeTlsC
                          secureChannelConfig: NativeTlsConfiguration): CompletableFuture<CC> {
         val connectionFuture = CompletableFuture<CC>()
         try {
+            if (LOG.isTraceEnabled) {
+                LOG.trace("Create TLS client and connect to server")
+            }
             val tlsClient = TLSClient(connectionFactory, configuration, secureChannelConfig, connectionFuture)
             tlsClient.connect(secureChannelConfig.host, secureChannelConfig.serverPort)
         } catch (e: IOException) {
@@ -52,6 +56,9 @@ class NativeTLSDriver<CC: Idscp2Connection> : SecureChannelDriver<CC, NativeTlsC
                         serverListenerPromise: CompletableFuture<ServerConnectionListener<CC>>,
                         secureChannelConfig: NativeTlsConfiguration): SecureServer {
         return try {
+            if (LOG.isTraceEnabled) {
+                LOG.trace("Create TLS server")
+            }
             TLSServer(secureChannelConfig, channelInitListener, serverListenerPromise)
         } catch (e: IOException) {
             throw Idscp2Exception("Error while trying to to start SecureServer", e)
