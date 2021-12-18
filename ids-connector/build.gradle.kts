@@ -37,6 +37,8 @@ dependencies {
     implementation("org.apache.camel.springboot:camel-rest-starter")
     implementation("org.apache.camel.springboot:camel-http-starter")
     implementation("de.fhg.aisec.ids", "camel-idscp2", libraryVersions["idscp2"])
+    implementation("de.fhg.aisec.ids", "idscp2-ra-cmc", libraryVersions["idscp2CmcRa"])
+    implementation("io.grpc:grpc-netty:${libraryVersions["grpc"]}")
 }
 
 // Clears library JARs before copying
