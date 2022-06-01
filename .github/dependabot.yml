@@ -1,11 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "maven"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    target-branch: "master"
-    open-pull-requests-limit: 50
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -18,7 +12,7 @@ updates:
     target-branch: "master"
     open-pull-requests-limit: 50
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/ids-webconsole/src/main/angular/"
     schedule:
       interval: "daily"
     target-branch: "master"
