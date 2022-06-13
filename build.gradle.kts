@@ -30,7 +30,7 @@ plugins {
     kotlin("jvm") version "1.6.20" apply false
     kotlin("plugin.spring") version "1.6.20" apply false
 
-    id("com.diffplug.spotless") version "6.4.1"
+    id("com.diffplug.spotless") version "6.7.2"
     id("com.github.jk1.dependency-license-report") version "2.1"
     id("com.github.ben-manes.versions") version "0.42.0"
 }
