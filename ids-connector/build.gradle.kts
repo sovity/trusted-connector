@@ -9,7 +9,7 @@ val libraryVersions = rootProject.extra.get("libraryVersions") as Map<String, St
 plugins {
     application
     id("org.springframework.boot")
-    id("com.github.gmazzo.buildconfig") version "3.0.3"
+    id("com.github.gmazzo.buildconfig") version "3.1.0"
 
     kotlin("jvm")
     kotlin("plugin.spring")
