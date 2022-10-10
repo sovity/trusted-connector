@@ -24,7 +24,7 @@ plugins {
     id("com.benjaminsproule.swagger") version "1.0.14" apply false
 
     // Protobuf
-    id("com.google.protobuf") version "0.8.18" apply false
+    id("com.google.protobuf") version "0.9.1" apply false
 
     // Kotlin specific
     kotlin("jvm") version "1.6.20" apply false
