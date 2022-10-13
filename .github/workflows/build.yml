@@ -13,7 +13,7 @@ jobs:
         uses: arduino/setup-protoc@v1.1.2
         with:
           version: 3.x
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.0.11
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
