@@ -17,7 +17,7 @@ plugins {
 
     // Spring Boot
     id("org.springframework.boot") version "2.6.6" apply false
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.spring.dependency-management") version "1.1.0"
 
     // Other needed plugins
     id("com.moowork.node") version "1.3.1" apply false
