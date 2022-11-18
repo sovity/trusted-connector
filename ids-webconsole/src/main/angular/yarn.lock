@@ -17,6 +17,14 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@angular-devkit/architect@0.1303.10":
+  version "0.1303.10"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1303.10.tgz#a79e749e27326151c507d36dbd3c396a0f417a63"
+  integrity sha512-A8blp98GY9Lg5RdgZ4M/nT0DhWsFv+YikC6+ebJsUTn/L06GcQNhyZKGCwB69S4Xe/kcYJgKpI2nAYnOLDpJlQ==
+  dependencies:
+    "@angular-devkit/core" "13.3.10"
+    rxjs "6.6.7"
+
 "@angular-devkit/architect@0.1303.2":
   version "0.1303.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1303.2.tgz#c898cbaa12cf653644326a657f33e0eb24fa7369"
@@ -105,6 +113,18 @@
     "@angular-devkit/architect" "0.1303.2"
     rxjs "6.6.7"
 
+"@angular-devkit/core@13.3.10":
+  version "13.3.10"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.3.10.tgz#08d43d8d7723fb31faadac2d2d84ccaa4d3144d2"
+  integrity sha512-NSjyrccES+RkVL/wt1t1jNmJOV9z5H4/DtVjJQbAt/tDE5Mo0ygnhELd/QiUmjVfzfSkhr75LqQD8NtURoGBwQ==
+  dependencies:
+    ajv "8.9.0"
+    ajv-formats "2.1.1"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
 "@angular-devkit/core@13.3.2":
   version "13.3.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.3.2.tgz#b2e7a9a6457d587a59d5f6df799bebb6930a5ddc"
@@ -117,12 +137,12 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@13.3.2":
-  version "13.3.2"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.2.tgz#ae5f4f68af852d56b9ceda4e878cceb1b4558dec"
-  integrity sha512-XCLb23jmqHN0gJg9ZlICaFgfpfnCufIQp5SOsRKMKRkhjKycvDmKnfBTKDlkzb1IaUl6wQwP5k7Z69b9EX+CQw==
+"@angular-devkit/schematics@13.3.10":
+  version "13.3.10"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.10.tgz#d182b0da728669d11ffc0b0710bed358f008de2d"
+  integrity sha512-/G0xInGBfFiJJQET3nKMe8V7Ny+fcxAZsXxFuOpuH2jfKqty9JMmuJw6ll5qEP0h3NnKPsF+9J1Gvq8Bmb4uDQ==
   dependencies:
-    "@angular-devkit/core" "13.3.2"
+    "@angular-devkit/core" "13.3.10"
     jsonc-parser "3.0.0"
     magic-string "0.25.7"
     ora "5.4.1"
@@ -192,15 +212,15 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/cli@~13.3.2":
-  version "13.3.2"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-13.3.2.tgz#399bb9cf87a89046d25f42070f00ea9b69f79e19"
-  integrity sha512-sfhMbm0wBAYmG+8YEYYZ5QkFyv2TJmMua/LbGoJE/y5UKBN+zLsMO3G/CW3D6pWThbgf04qQpi2LHonbPC/Bkg==
+"@angular/cli@~13.3.10":
+  version "13.3.10"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-13.3.10.tgz#a3a1baf20ffcfc58794660a05e9027afec73c84e"
+  integrity sha512-MssGlWSFv2d8d6b0+ml0NLYWr/X+2FzIleaoEwkYnLeCTBrH07xghVkCbSk8OnTvEmuBcUcsNiPprpLFY4cGEw==
   dependencies:
-    "@angular-devkit/architect" "0.1303.2"
-    "@angular-devkit/core" "13.3.2"
-    "@angular-devkit/schematics" "13.3.2"
-    "@schematics/angular" "13.3.2"
+    "@angular-devkit/architect" "0.1303.10"
+    "@angular-devkit/core" "13.3.10"
+    "@angular-devkit/schematics" "13.3.10"
+    "@schematics/angular" "13.3.10"
     "@yarnpkg/lockfile" "1.1.0"
     ansi-colors "4.1.1"
     debug "4.3.3"
@@ -1473,13 +1493,13 @@
     node-addon-api "^3.2.1"
     node-gyp-build "^4.3.0"
 
-"@schematics/angular@13.3.2":
-  version "13.3.2"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-13.3.2.tgz#c8a2c49ca115e41abaa040b3ee5ee4826128471a"
-  integrity sha512-ycTrPEsaSEtJ/CR8MVBrU6jaxcdBSy1lGUW8qSElsGS0OkHFKaV7fkzS9h0gPK9ANp6grZn0Ms3Hy3gAKQkiiQ==
+"@schematics/angular@13.3.10":
+  version "13.3.10"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-13.3.10.tgz#7d646ebfaf28bb1a6960493b11f5914f546a3ad5"
+  integrity sha512-sw6K8YihfcqNyfa2/65ACPixZHQJRBw1aNm8w0DRGFyO3aXRe9G5X23MkCMLH+63oK9R1cK63/fZ8zqfdSq7zA==
   dependencies:
-    "@angular-devkit/core" "13.3.2"
-    "@angular-devkit/schematics" "13.3.2"
+    "@angular-devkit/core" "13.3.10"
+    "@angular-devkit/schematics" "13.3.10"
     jsonc-parser "3.0.0"
 
 "@swc-node/core@^1.8.2":
