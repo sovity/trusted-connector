@@ -25,6 +25,7 @@ import de.fhg.aisec.ids.api.settings.Settings
 import de.fhg.aisec.ids.camel.idscp2.ListenerManager
 import de.fhg.aisec.ids.camel.idscp2.Utils
 import de.fhg.aisec.ids.camel.processors.UsageControlMaps
+import de.fhg.aisec.ids.rm.ConnectionManagerService
 import de.fhg.aisec.ids.rm.RouteManagerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -37,10 +38,16 @@ import java.util.Arrays
 @Configuration
 class ConnectorConfiguration {
 
-    @Autowired(required = false) private var cml: ContainerManager? = null
+    @Autowired(required = false)
+    private var cml: ContainerManager? = null
+
     @Autowired private lateinit var settings: Settings
+
     @Autowired private lateinit var im: InfoModel
+
     @Autowired private lateinit var rm: RouteManagerService
+
+    @Autowired private lateinit var cm: ConnectionManagerService
 
     @Bean
     fun configureIdscp2(): CommandLineRunner {

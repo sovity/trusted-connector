@@ -1,17 +1,15 @@
-@Suppress("UNCHECKED_CAST")
-val libraryVersions = rootProject.extra.get("libraryVersions") as Map<String, String>
-
 dependencies {
-    implementation("de.fhg.aisec.ids", "camel-idscp2", libraryVersions["idscp2"])
+    implementation("org.springframework.boot:spring-boot-starter")
 
-    implementation("de.fraunhofer.iais.eis.ids.infomodel", "java", libraryVersions["infomodel"])
-    implementation("de.fraunhofer.iais.eis.ids", "infomodel-serializer", libraryVersions["infomodel"])
+    implementation(libs.idscp2.core)
+    implementation(libs.camel.idscp2)
 
-    implementation("org.apache.camel", "camel-core", libraryVersions["camel"])
+    implementation(libs.infomodel.model)
+    implementation(libs.infomodel.serializer)
 
-    implementation("com.google.guava", "guava", libraryVersions["guava"])
+    implementation(libs.camel.core)
 
-    testImplementation("junit", "junit", libraryVersions["junit4"])
-    testImplementation("org.apache.camel", "camel-test", libraryVersions["camel"])
-    testImplementation("org.mockito", "mockito-core", libraryVersions["mockito"])
+    implementation(libs.guava)
+
+    testImplementation(libs.bundles.camelTest)
 }
