@@ -19,14 +19,17 @@
  */
 package de.fhg.aisec.ids.camel.processors
 
+import de.fhg.aisec.ids.api.contracts.ContractConstants
+import de.fhg.aisec.ids.api.contracts.ContractUtils.SERIALIZER
 import de.fhg.aisec.ids.camel.processors.Constants.IDSCP2_HEADER
-import de.fhg.aisec.ids.camel.processors.Utils.SERIALIZER
 import de.fraunhofer.iais.eis.ResourceUpdateMessageBuilder
 import org.apache.camel.Exchange
 import org.apache.camel.Processor
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import java.net.URI
 
+@Component("resourceUpdateCreationProcessor")
 class ResourceUpdateCreationProcessor : Processor {
 
     override fun process(exchange: Exchange) {
@@ -34,7 +37,7 @@ class ResourceUpdateCreationProcessor : Processor {
             LOG.debug("[IN] ${this::class.java.simpleName}")
         }
 
-        val artifactUri = exchange.getProperty(Constants.ARTIFACT_URI_PROPERTY)?.let {
+        val artifactUri = exchange.getProperty(ContractConstants.ARTIFACT_URI_PROPERTY)?.let {
             if (it is URI) {
                 it
             } else {
@@ -43,7 +46,7 @@ class ResourceUpdateCreationProcessor : Processor {
         }
 
         val usedContract = ProviderDB.artifactUrisMapped2ContractAgreements[
-            Pair(artifactUri, UsageControlMaps.getExchangeConnection(exchange))
+            Pair(artifactUri, UsageControlMaps.getExchangePeerIdentity(exchange))
         ]
             ?: throw RuntimeException("No UC contract found for resource/artifact $artifactUri")
         if (LOG.isDebugEnabled) {

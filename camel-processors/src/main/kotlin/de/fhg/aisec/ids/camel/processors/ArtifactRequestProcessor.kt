@@ -19,9 +19,9 @@
  */
 package de.fhg.aisec.ids.camel.processors
 
+import de.fhg.aisec.ids.api.contracts.ContractUtils
+import de.fhg.aisec.ids.api.contracts.ContractUtils.SERIALIZER
 import de.fhg.aisec.ids.camel.idscp2.Constants.IDSCP2_HEADER
-import de.fhg.aisec.ids.camel.idscp2.Utils
-import de.fhg.aisec.ids.camel.processors.Utils.SERIALIZER
 import de.fraunhofer.iais.eis.ArtifactBuilder
 import de.fraunhofer.iais.eis.ArtifactRequestMessage
 import de.fraunhofer.iais.eis.ArtifactResponseMessageBuilder
@@ -30,9 +30,11 @@ import de.fraunhofer.iais.eis.RejectionReason
 import org.apache.camel.Exchange
 import org.apache.camel.Processor
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.math.BigInteger
 
+@Component("artifactRequestProcessor")
 class ArtifactRequestProcessor : Processor {
 
     override fun process(exchange: Exchange) {
@@ -45,11 +47,10 @@ class ArtifactRequestProcessor : Processor {
             ArtifactRequestMessage::class.java
         )
         val requestedArtifact = artifactRequestMessage.requestedArtifact
-//        val transferContract = artifactRequestMessage.transferContract
 
         // TODO: If transferContract doesn't match expected contract from database, send rejection!
         val usedContract = ProviderDB.artifactUrisMapped2ContractAgreements[
-            Pair(requestedArtifact, UsageControlMaps.getExchangeConnection(exchange))
+            Pair(requestedArtifact, UsageControlMaps.getExchangePeerIdentity(exchange))
         ]
         if (LOG.isDebugEnabled) {
             LOG.debug("Contract for requested Artifact found {}", usedContract)
@@ -59,6 +60,7 @@ class ArtifactRequestProcessor : Processor {
         if (!ProviderDB.availableArtifactURIs.containsKey(requestedArtifact)) {
             createRejectionMessage(exchange, artifactRequestMessage, RejectionReason.NOT_FOUND)
         } else if (usedContract == null || !ProviderDB.contractAgreements.containsKey(usedContract)) {
+            LOG.debug("Provider DB: {}", ProviderDB.artifactUrisMapped2ContractAgreements)
             createRejectionMessage(exchange, artifactRequestMessage, RejectionReason.NOT_AUTHORIZED)
         } else {
             // Proceed normally and send ArtifactResponseMessage
@@ -74,7 +76,7 @@ class ArtifactRequestProcessor : Processor {
             }
 
             // create sample artifact
-            val artifactDate = Utils.createGregorianCalendarTimestamp(System.currentTimeMillis())
+            val artifactDate = ContractUtils.newGregorianCalendar()
             val artifact = ArtifactBuilder()
                 ._byteSize_(BigInteger.valueOf(50000))
                 ._checkSum_("ABCDEFG-CHECKSUM")

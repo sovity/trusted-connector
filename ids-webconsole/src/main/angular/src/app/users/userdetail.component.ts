@@ -1,58 +1,52 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-//import { User } from './user.interface';
 import { UserService } from './user.service';
 import { ActivatedRoute } from '@angular/router';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
     templateUrl: './userdetail.component.html'
 })
-
 export class DetailUserComponent implements OnInit {
-    @Output() public readonly changeTitle = new EventEmitter();
-    public myForm: FormGroup;
+
+    public myForm: UntypedFormGroup;
     userId: string;
     oldPW: string;
     newPW: string;
     rePW: string;
-    constructor(private readonly fb: FormBuilder, private readonly titleService: Title,
+
+    constructor(private readonly fb: UntypedFormBuilder,
+                private readonly titleService: Title,
+                private readonly log: NGXLogger,
                 private readonly userService: UserService,
                 private readonly router: Router,
                 private route: ActivatedRoute) {
         this.titleService.setTitle('User settings');
     }
-    public ngOnInit(): void {
-      this.changeTitle.emit('Users');
 
-      this.myForm = this.fb.group({
-        oldpassword: ['', Validators.required as any],
-        newpassword: ['', Validators.required as any],
-        repeatpassword: ['', Validators.required as any]
-      });
-      this.userId = this.route.snapshot.queryParamMap.get('user');
+    public ngOnInit(): void {
+        this.myForm = this.fb.group({
+            oldpassword: ['', Validators.required],
+            newpassword: ['', Validators.required],
+            repeatpassword: ['', Validators.required]
+        });
+        this.userId = this.route.snapshot.queryParamMap.get('user');
     }
 
     // Change Password
     public async save(): Promise<boolean> {
-      this.oldPW = this.myForm.get('oldpassword').value;
-      this.newPW = this.myForm.get('newpassword').value;
-      this.rePW = this.myForm.get('repeatpassword').value;
+        this.oldPW = this.myForm.get('oldpassword').value;
+        this.newPW = this.myForm.get('newpassword').value;
+        this.rePW = this.myForm.get('repeatpassword').value;
 
-      console.log('userpw'+this.oldPW+this.newPW+this.rePW);
-
-      if (this.newPW === this.rePW)
-      {
-        console.log('changing password');
-        this.userService.setPassword(this.userId,this.oldPW,this.newPW);
-      }
-      else
-      {
-        console.log('New passwords not equal, password not changed');
-      }
-      return this.router.navigate(['/users']);
-        console.log('userpw'+this.oldPW+this.newPW+this.rePW);
+        if (this.newPW === this.rePW) {
+            this.log.debug('Changing password...');
+            await this.userService.setPassword(this.userId, this.oldPW, this.newPW);
+        } else {
+            this.log.warn('New passwords not equal, password not changed!');
+        }
+        return this.router.navigate(['/users']);
     }
 }

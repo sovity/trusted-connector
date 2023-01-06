@@ -4,6 +4,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 plugins {
+    idea
     application
     alias(libs.plugins.springboot)
     alias(libs.plugins.buildconfig)
@@ -26,7 +27,6 @@ dependencies {
     // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-jersey")
     implementation("org.springframework.boot:spring-boot-starter-jetty")
     // Camel Spring Boot integration
     implementation("org.apache.camel.springboot:camel-spring-boot-starter")
@@ -83,8 +83,6 @@ tasks.withType<BootJar> {
     enabled = false
 }
 
-apply(plugin = "idea")
-
 buildConfig {
     sourceSets.getByName("main") {
         packageName("de.fhg.aisec.ids")
@@ -100,5 +98,14 @@ configure<IdeaModel> {
     module {
         // mark as generated sources for IDEA
         generatedSourceDirs.add(File("$buildDir/generated/source/buildConfig/main/main"))
+    }
+}
+
+// Always write project version to version.txt after build/install
+tasks.build {
+    doLast {
+        file(rootProject.projectDir).resolve("version.txt").bufferedWriter().use {
+            it.write(rootProject.version.toString())
+        }
     }
 }

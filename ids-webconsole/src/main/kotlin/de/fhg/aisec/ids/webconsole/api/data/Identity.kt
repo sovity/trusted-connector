@@ -33,4 +33,7 @@ class Identity {
 
     @JvmField
     var c: String? = null
+
+    @JvmField
+    var email: String? = null
 }

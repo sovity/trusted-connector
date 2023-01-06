@@ -19,19 +19,24 @@
  */
 package de.fhg.aisec.ids.camel.processors
 
+import de.fhg.aisec.ids.api.contracts.ContractManager
+import de.fhg.aisec.ids.api.contracts.ContractUtils.SERIALIZER
+import de.fhg.aisec.ids.camel.processors.Constants.CONTRACT_STORE_KEY
 import de.fhg.aisec.ids.camel.processors.Constants.IDSCP2_HEADER
-import de.fhg.aisec.ids.camel.processors.Utils.SERIALIZER
 import de.fraunhofer.iais.eis.ContractRequest
 import de.fraunhofer.iais.eis.ContractRequestMessage
 import de.fraunhofer.iais.eis.ContractResponseMessageBuilder
 import org.apache.camel.Exchange
 import org.apache.camel.Processor
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 /**
  * This Processor handles a ContractRequestMessage and creates a ContractResponseMessage.
  */
-class ContractRequestProcessor : Processor {
+@Component("contractRequestProcessor")
+class ContractRequestProcessor(@Autowired private val contractManager: ContractManager) : Processor {
 
     override fun process(exchange: Exchange) {
         if (LOG.isDebugEnabled) {
@@ -58,7 +63,21 @@ class ContractRequestProcessor : Processor {
                 exchange.message.setHeader(IDSCP2_HEADER, it)
             }
 
-        val contractOffer = ContractFactory.buildContractOffer(requestedArtifact, exchange)
+        val storeKey = exchange.getProperty(CONTRACT_STORE_KEY)?.toString()
+        val contractOffer = storeKey?.let {
+            contractManager.loadContract(it)?.let { offer ->
+                if (offer.permission.none { p -> p.target == requestedArtifact }) {
+                    throw RuntimeException(
+                        "Offer with store key \"$it\"" +
+                            " does not contain any permissions for artifact \"$requestedArtifact\""
+                    )
+                }
+                offer
+            } ?: throw RuntimeException("Error loading ContractOffer using store key \"$storeKey\"")
+        } ?: run {
+            val contractProperties = ContractHelper.collectContractProperties(requestedArtifact, exchange)
+            contractManager.makeContract(contractProperties)
+        }
 
         SERIALIZER.serialize(contractOffer).let {
             if (LOG.isDebugEnabled) {
